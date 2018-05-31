@@ -1,0 +1,6 @@
+{
+    "require": {
+        "smalot/pdfparser": "*",
+        "yabacon/paystack-php": "^2.1"
+    }
+}
