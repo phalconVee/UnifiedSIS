@@ -135,7 +135,6 @@ switch (ENVIRONMENT)
  */
 	$view_folder = '';
 
-
 /*
  * --------------------------------------------------------------------
  * DEFAULT CONTROLLER
