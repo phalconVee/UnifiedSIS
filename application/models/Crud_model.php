@@ -207,6 +207,112 @@ class Crud_model extends CI_Model {
         }
     }
 
+    function get_grade_comment($score) {
+        $query = $this->db->get('grade');
+        $grades = $query->result_array();
+        foreach ($grades as $row) {
+            if ($score >= $row['mark_from'] && $score <= $row['mark_upto'])
+                return $row['comment'];
+        }
+    }
+
+    function calculatePass($exam_id, $class_id, $section_id, $student_id, $running_year) {
+
+        // Gte all conditions per class, section and subject
+        $this->db->select('*');
+        $this->db->from('pass_condition');
+        $this->db->where('class_id', $class_id);
+        $this->db->where('section_id', $section_id);
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0) {
+
+            $query_1 = $query->result();
+
+            foreach ($query_1 as $val) {
+                $pass_mark = $val->pass_mark;
+                $sec_id    = $val->section_id;
+                $sub_id    = $val->subject_id;
+                $cla_id    = $val->class_id;
+
+                $query_2 = $this->db->get_where('mark' , array(
+                    //'subject_id' => $sub_id,
+                    'exam_id'    => $exam_id,
+                    'class_id'   => $class_id,
+                    'student_id' => $student_id,
+                    'section_id' => $section_id,
+                    'year'       => $running_year
+                ));
+
+                if($query_2->num_rows() > 0) {
+                    $marks = $query_2->result_array();
+
+                    foreach ($marks as $row4) {
+
+                       $result =  $this->getArrayVal($sub_id, $row4['subject_id'], $row4['total_score'], $pass_mark);
+                       $value  = intval($result);
+
+                        if (!empty($result)) {
+                            return 'FAILED';
+                        }
+
+                        // implement condition
+                        /*if($total_score < $pass_mark) {
+                            //return 'FAILED';
+                            return $total_score;
+                        }else {
+                            //return 'PASSED';
+                            return $total_score;
+                        }*/
+                    }
+
+                } else {
+                    $this->calculateAverage($exam_id, $class_id, $section_id, $student_id, $running_year);
+                }
+            }
+        }
+        else
+        {
+            $this->calculateAverage($exam_id, $class_id, $section_id, $student_id, $running_year);
+        }
+    }
+
+    public function getArrayVal($sub, $com_sub, $score, $p_mark)
+    {
+        if($sub == $com_sub):
+            if($score < $p_mark) {
+                return 'FAILED';
+               //$response = array($score);
+               //return $response;
+            }
+        endif;
+    }
+
+    public function calculateAverage($exam_id, $class_id, $section_id, $student_id, $running_year) {
+
+        $class_average_query = $this->db->get_where('result', array(
+            'exam_id'    => $exam_id,
+            'section_id' => $section_id,
+            'class_id'   => $class_id,
+            'student_id' => $student_id,
+            'year'       => $running_year
+        ));
+
+        if($class_average_query->num_rows() > 0) {
+            $average = $class_average_query->row()->average;
+
+            if($average < 50) {
+                return 'FAILED';
+            }else {
+                return 'PASSED';
+            }
+
+        }else {
+           return 'FAILED';
+        }
+
+    }
+
     function count_no_of_birthdays() {
 
         $query = $this->db->get('student')->result_array();
@@ -269,7 +375,6 @@ class Crud_model extends CI_Model {
                                        year = "'.$year.'")
                                        ORDER BY average DESC) as sub
                                        WHERE sub.student_id = "'.$student_id.'"
-
                                       ')->result_array();
 
             foreach($position_query as $val){

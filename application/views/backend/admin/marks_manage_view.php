@@ -1,3 +1,9 @@
+<style>
+    .table-cs > thead > tr > th, .table-cs > tbody > tr > th, .table-cs > tfoot > tr > th, .table-cs > thead > tr > td, .table-cs > tbody > tr > td, .table-cs > tfoot > tr > td {
+        border: 1px solid #4c4c4c;
+    }
+</style>
+
 <hr />
 <?php echo form_open(base_url() . 'index.php?admin/marks_selector');?>
 <div class="row">
@@ -104,7 +110,7 @@
 	<div class="col-md-12">
 
 		<?php echo form_open(base_url() . 'index.php?admin/marks_update/'.$exam_id.'/'.$class_id.'/'.$section_id.'/'.$subject_id);?>
-			<table class="table table-bordered">
+			<table class="table table-cs" border="2">
 				<thead>
                 <?php $sub_array = array('1', '2', '3', '4', '5', '6', '7', '8', '9');?>
                 <?php if(in_array($class_id, $sub_array)) { ?>
@@ -218,9 +224,6 @@
 	</div>
 	<!--<div class="col-md-2"></div>-->
 </div>
-
-
-
 
 
 <script type="text/javascript">

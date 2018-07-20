@@ -335,13 +335,17 @@ class Admin extends CI_Controller
         $this->db->from('mark');
         $page_data['no_of_subjects'] = $this->db->count_all_results();
 
+        // calculate pass
+        $page_data['pass_status'] = $this->crud_model->calculatePass($exam_id, $class_id, $section_id, $student_id, $running_year);
+
         $page_data['student_id']   =   $student_id;
         $page_data['class_id']     =   $class_id;
         $page_data['section_id']   =   $section_id;
         $page_data['exam_id']      =   $exam_id;
 
         $page_data['page_title']   =   get_phrase('marksheet_for') . ' ' . $student_name . ' (' . get_phrase('class') . ' ' . $class_name . ')';
-        $this->load->view('backend/admin/student_marksheet_print_view_2', $page_data);
+        //$this->load->view('backend/admin/student_marksheet_print_view_2', $page_data);
+        $this->load->view('backend/admin/student_marksheet_print_view_3', $page_data);
     }
 
     function student($param1 = '', $param2 = '', $param3 = '')
@@ -1849,7 +1853,8 @@ class Admin extends CI_Controller
                 $mark_test_2    = $this->input->post('mark_test_2_'.$row['mark_id']);
                 $obtained_marks = $this->input->post('marks_obtained_'.$row['mark_id']);
                 $total_score    = $other_mark + $mark_test_1 + $mark_test_2 + $obtained_marks;
-                $comment        = $this->input->post('comment_'.$row['mark_id']);
+                //$comment        = $this->input->post('comment_'.$row['mark_id']);
+                $comment        = $this->getComment($total_score);
 
                 if($total_score > 100) {
                     $this->session->set_flashdata('error_message' , get_phrase('Total score must not be greater than 100, please check your inputs'));
@@ -1869,6 +1874,18 @@ class Admin extends CI_Controller
             $page_data['page_title'] = get_phrase('manage_exam_marks');
             $this->load->view('backend/index', $page_data);
         }
+    }
+
+    /**
+     * @param $score
+     * @return mixed
+     * Get score comment
+     */
+    function getComment($score)
+    {
+        $comment = $this->crud_model->get_grade_comment($score);
+
+        return $comment;
     }
 
     function marks_get_subject($class_id)

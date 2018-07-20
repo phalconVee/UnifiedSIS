@@ -1,5 +1,4 @@
 
-
 	<link rel="stylesheet" href="assets/js/datatables/responsive/css/datatables.responsive.css">
 	<link rel="stylesheet" href="assets/js/select2/select2-bootstrap.css">
 	<link rel="stylesheet" href="assets/js/select2/select2.css">
@@ -36,41 +35,36 @@
 
 	<script src="assets/js/wysihtml5/wysihtml5-0.4.0pre.min.js"></script>
 	<script src="assets/js/wysihtml5/bootstrap-wysihtml5.js"></script>
-
 	<script src="assets/js/bootstrap-switch.min.js"></script>
 
+    <!-- SHOW TOASTR NOTIFICATION -->
+    <?php if ($this->session->flashdata('flash_message') != ""):?>
+
+    <script type="text/javascript">
+        toastr.success('<?php echo $this->session->flashdata("flash_message");?>');
+    </script>
+
+    <?php endif;?>
+
+    <?php if ($this->session->flashdata('error_message') != ""):?>
+
+    <script type="text/javascript">
+        toastr.error('<?php echo $this->session->flashdata("error_message");?>');
+    </script>
+
+    <?php endif;?>
 
 
+    <!-----  DATA TABLE EXPORT CONFIGURATIONS ---->
+    <script type="text/javascript">
 
+        jQuery(document).ready(function($)
+        {
+            var datatable = $("#table_export").dataTable();
 
-<!-- SHOW TOASTR NOTIFICATION -->
-<?php if ($this->session->flashdata('flash_message') != ""):?>
+            $(".dataTables_wrapper select").select2({
+                minimumResultsForSearch: -1
+            });
+        });
 
-<script type="text/javascript">
-	toastr.success('<?php echo $this->session->flashdata("flash_message");?>');
-</script>
-
-<?php endif;?>
-
-<?php if ($this->session->flashdata('error_message') != ""):?>
-
-<script type="text/javascript">
-	toastr.error('<?php echo $this->session->flashdata("error_message");?>');
-</script>
-
-<?php endif;?>
-
-
-<!-----  DATA TABLE EXPORT CONFIGURATIONS ---->                      
-<script type="text/javascript">
-
-	jQuery(document).ready(function($)
-	{
-		var datatable = $("#table_export").dataTable();
-		
-		$(".dataTables_wrapper select").select2({
-			minimumResultsForSearch: -1
-		});
-	});
-		
-</script>
+    </script>

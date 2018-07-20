@@ -47,7 +47,7 @@ $running_year       =	$this->db->get_where('settings' , array('type'=>'running_y
 
     </center>
 
-        <table style="width:100%; border-collapse:collapse;border: 2px solid #ccc; margin-top: 10px;" border="1">
+        <table style="width:100%; border-collapse:collapse;border: 2px solid #000; margin-top: 10px;" border="1">
             <thead>
             <tr>
                 <th>#</th>

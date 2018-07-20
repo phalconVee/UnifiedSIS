@@ -12,7 +12,6 @@ $address            =   $this->db->get_where('settings' , array('type'=>'address
 $class_name		 	= 	$this->db->get_where('class' , array('class_id' => $class_id))->row()->name;
 $exam_name  		= 	$this->db->get_where('exam' , array('exam_id' => $exam_id))->row()->name;
 $section_name  		= 	$this->db->get_where('section' , array('section_id' => $section_id))->row()->name;
-
 ?>
 
 <!DOCTYPE html>
@@ -386,10 +385,12 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                                             <td class="text-center" style="text-align: center;background-color: #ccc;" width="20"><strong>Result Status:</strong></td>
                                             <td class="text-center" width="80">&nbsp;
                                                 <?php
-                                                    if($average < 40)
+                                                    //echo $pass_status;
+                                                    if($pass_status == 'FAILED')
                                                         echo 'FAILED';
                                                     else
                                                         echo 'PASSED';
+
                                                 ?>
                                             </td>
                                         </tr>
