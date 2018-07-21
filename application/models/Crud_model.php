@@ -384,48 +384,50 @@ class Crud_model extends CI_Model {
         }
     }
 
-    /*function get_rank_in_sub($class_id, $exam_id, $section_id, $student_id, $subject_id, $year) {
+    function getRankingAlgorithm($class_id, $exam_id, $section_id, $student_id, $year) {
 
         //check if record exists already
         $this->db->where('class_id', $class_id);
         $this->db->where('exam_id', $exam_id);
         $this->db->where('section_id', $section_id);
         $this->db->where('student_id', $student_id);
-        $this->db->where('subject_id', $student_id);
         $query = $this->db->get('result');
 
         if($query->num_rows() < 1){
-
             return '0';
+        }else {
 
-        }else{
-            $position_query = $this->db->query('SELECT * FROM
-                                       (SELECT
-                                             (@rownum := @rownum + 1) AS rank,
-                                              student_id,
-                                              exam_id,
-                                              section_id,
-                                              year,
-                                              total_mark,
-                                              average
-                                       FROM `result` a
-                                       CROSS JOIN (SELECT @rownum := 0) params
-                                       WHERE (class_id = "'.$class_id.'" AND
-                                       exam_id = "'.$exam_id.'" AND
-                                       section_id = "'.$section_id.'" AND
-                                       withdrawn = "1" AND
-                                       year = "'.$year.'")
-                                       ORDER BY average DESC) as sub
-                                       WHERE sub.student_id = "'.$student_id.'"
+            $sql = 'SELECT * FROM 
+                    (
+                        SELECT
+                        result.student_id,
+                        result.average,
+                        @prev := @curr,
+                        @curr := average,
+                        @rank := IF(@prev = @curr, @rank, @rank + @i) AS rank,
+                        IF(@prev <> average, @i:=1, @i:=@i+1) AS counter
+                        FROM
+                        result,
+                        (SELECT @curr := null, @prev := null, @rank := 1, @i := 0) tmp_tbl
+                        WHERE
+                        (result.class_id = "'.$class_id.'" AND
+                        result.section_id = "'.$section_id.'" AND
+                        result.exam_id = "'.$exam_id.'" AND
+                        result.year = "'.$year.'" AND
+                        result.withdrawn = 1 )
+                        ORDER BY
+                        result.average DESC
+                    ) as sub 
+                    WHERE sub.student_id = "'.$student_id.'"
+                   ';
 
-                                      ')->result_array();
+            $position_query = $this->db->query($sql)->result_array();
 
-            foreach($position_query as $val){
-
+            foreach ($position_query as $val) {
                 return $val['rank'];
             }
         }
-    }*/
+    }
 
     function create_log($data) {
         $data['timestamp'] = strtotime(date('Y-m-d') . ' ' . date('H:i:s'));

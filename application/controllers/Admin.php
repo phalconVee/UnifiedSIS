@@ -297,7 +297,7 @@ class Admin extends CI_Controller
             $page_data['average'] = '0.00';
         }
 
-        $position = $this->crud_model->get_position($class_id, $exam_id, $section_id, $student_id, $running_year);
+        $position = $this->crud_model->getRankingAlgorithm($class_id, $exam_id, $section_id, $student_id, $running_year);
         $page_data['position'] = $position;
 
         $last_value = substr($position, -1);

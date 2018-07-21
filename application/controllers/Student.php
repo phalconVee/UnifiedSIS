@@ -5,7 +5,6 @@ if (!defined('BASEPATH'))
 
 class Student extends CI_Controller
 {
-
     function __construct()
     {
         parent::__construct();
@@ -251,7 +250,7 @@ class Student extends CI_Controller
             $page_data['average'] = '0.00';
         }
 
-        $position = $this->crud_model->get_position($class_id, $exam_id, $section_id, $student_id, $running_year);
+        $position = $this->crud_model->getRankingAlgorithm($class_id, $exam_id, $section_id, $student_id, $running_year);
         $page_data['position'] = $position;
 
         $last_value = substr($position, -1);
@@ -289,13 +288,16 @@ class Student extends CI_Controller
         $this->db->from('mark');
         $page_data['no_of_subjects'] = $this->db->count_all_results();
 
+        // calculate pass
+        $page_data['pass_status'] = $this->crud_model->calculatePass($exam_id, $class_id, $section_id, $student_id, $running_year);
+
         $page_data['student_id'] =   $student_id;
         $page_data['class_id']   =   $class_id;
         $page_data['section_id']   =   $section_id;
         $page_data['exam_id']    =   $exam_id;
         //$page_data['page_name']  =   'student_marksheet_print_view_3';
         $page_data['page_title'] =   get_phrase('marksheet_for') . ' ' . $student_name . ' (' . get_phrase('class') . ' ' . $class_name . ')';
-        $this->load->view('backend/student/student_marksheet_print_view_2', $page_data);
+        $this->load->view('backend/student/student_marksheet_print_view_3', $page_data);
     }
 
 
