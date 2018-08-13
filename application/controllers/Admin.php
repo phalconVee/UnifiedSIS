@@ -1883,9 +1883,13 @@ class Admin extends CI_Controller
      */
     function getComment($score)
     {
-        $comment = $this->crud_model->get_grade_comment($score);
-
-        return $comment;
+        if(intval($score) > 0) {
+            $comment = $this->crud_model->get_grade_comment($score);
+            return $comment;
+        }
+        else {
+            return '-';
+        }
     }
 
     function marks_get_subject($class_id)
@@ -1988,7 +1992,7 @@ class Admin extends CI_Controller
                 }
             }
 
-            $class_array = array('14', '15');   //class_id for SS2 and SS3
+            $class_array = array('13', '14', '15');   //class_id for SS1, SS2 and SS3
 
             if(in_array($class_id, $class_array)) {
 
@@ -2083,7 +2087,7 @@ class Admin extends CI_Controller
                 }
             }
 
-            $class_array = array('14', '15');   //class_id for SS2 and SS3
+            $class_array = array('13', '14', '15');   //class_id for SS1, SS2 and SS3
 
             if(in_array($class_id, $class_array)) {
 

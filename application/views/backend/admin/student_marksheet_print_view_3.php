@@ -182,11 +182,15 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                             $marks = $other_mark_query->result_array();
                             foreach ($marks as $row4) {
                                 $CA_1 =  $row4['other_mark'];
-                                echo $CA_1;
+                                if(intval($CA_1) > 0) {
+                                    echo $CA_1;
+                                }else {
+                                    echo '-';
+                                }
                                 $total_marks += $row4['other_mark'];
                             }
                         } else {
-                            $CA_1 = 0;
+                            $CA_1 = '-';
                             echo $CA_1;
                         }
                         ?>
@@ -204,11 +208,15 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                             $marks = $first_test_query->result_array();
                             foreach ($marks as $row4) {
                                 $CA_2 = $row4['mark_test_1'];
-                                echo $CA_2;
+                                if(intval($CA_2) > 0) {
+                                    echo $CA_2;
+                                }else{
+                                    echo '-';
+                                }
                                 $total_marks += $row4['mark_test_1'];
                             }
                         } else {
-                            $CA_2 = 0;
+                            $CA_2 = '-';
                             echo $CA_2;
                         }
                         ?>
@@ -226,11 +234,15 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                             $marks = $second_test_query->result_array();
                             foreach ($marks as $row4) {
                                 $CA_3 = $row4['mark_test_2'];
-                                echo $CA_3;
+                                if(intval($CA_3 > 0)) {
+                                    echo $CA_3;
+                                }else {
+                                    echo '-';
+                                }
                                 $total_marks += $row4['mark_test_2'];
                             }
                         } else {
-                            $CA_3 = 0;
+                            $CA_3 = '-';
                             echo $CA_3;
                         }
                         ?>
@@ -238,7 +250,12 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
 
                     <td>
                         <?php
-                        echo $CA_1 + $CA_2 + $CA_3;
+                        $total_CA = $CA_1 + $CA_2 + $CA_3;
+                        if($total_CA > 0){
+                            echo $total_CA;
+                        }else{
+                            echo '-';
+                        }
                         ?>
                     </td>
 
@@ -254,9 +271,16 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                         if($obtained_mark_query->num_rows() > 0){
                             $marks = $obtained_mark_query->result_array();
                             foreach ($marks as $row4) {
-                                echo $row4['mark_obtained'];
+                                //echo $row4['mark_obtained'];
+                                if(intval($row4['mark_obtained']) > 0){
+                                    echo $row4['mark_obtained'];
+                                }else{
+                                    echo '-';
+                                }
                                 $total_marks += $row4['mark_obtained'];
                             }
+                        }else {
+                            echo '-';
                         }
                         ?>
                     </td>
@@ -278,7 +302,7 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                                 $t_score = $row4['total_score'];
                                 $total_marked += $row4['total_score'];
                                 if($t_score == 0) {
-                                    echo 'N/A';
+                                    echo '-';
                                 }else {
                                     if($t_score >=40)
                                         echo '<span style="color: #4CAF50;">'.$t_score.'</span>';
@@ -286,6 +310,8 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                                         echo '<span style="color: #F44336;">'.$t_score.'</span>';
                                 }
                             }
+                        }else {
+                            echo '-';
                         }
                         ?>
                     </td>
@@ -295,20 +321,34 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                         if($obtained_mark_query->num_rows() > 0) {
                             if ($row4['mark_obtained'] >= 0 || $row4['mark_obtained'] != '') {
                                 if($row4['total_score'] == 0) {
-                                    echo 'N/A';
+                                    echo '-';
                                 } else {
                                     $grade = $this->crud_model->get_grade($row4['total_score']);
                                     echo $grade['name'];
                                     $total_grade_point += $grade['grade_point'];
                                 }
                             }
+                        }else {
+                            echo '-';
                         }
                         ?>
                     </td>
 
                     <!--<td></td>-->
 
-                    <td><?php if($obtained_mark_query->num_rows() > 0) echo $row4['comment'];?></td>
+                    <td>
+                        <?php
+                        if($obtained_mark_query->num_rows() > 0) :
+                            if($t_score > 0){
+                                echo $row4['comment'];
+                            }else{
+                                echo '-';
+                            }
+                        else:
+                            echo '-';
+                        endif;
+                        ?>
+                    </td>
 
                     <td>
                         <?php
@@ -394,14 +434,6 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                 <tr>
                     <td>Reg No:</td>
                     <td><strong><strong><?php echo $this->db->get_where('enroll' , array('student_id' => $student_id))->row()->enroll_code;?></strong></td>
-                    <td>Days Opened:</td>
-                    <td><strong>60</strong></td>
-                    <td>Days Present:</td>
-                    <td><strong><?=$days_present;?></strong></td>
-                    <td>Days Absent:</td>
-                    <td><strong><?=$days_absent;?></strong></td>
-                </tr>
-                <tr>
                     <td>Total Marks Obtained:</td>
                     <td><strong><?=$total_marked;?></strong></td>
                     <td>No. of Subjects Taken:</td>
@@ -411,6 +443,16 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                     <td>Resumption Date:</td>
                     <td><strong>N/A</strong></td>
                 </tr>
+                <!--<tr>
+                    <td>Total Marks Obtained:</td>
+                    <td><strong><?=$total_marked;?></strong></td>
+                    <td>No. of Subjects Taken:</td>
+                    <td><strong><?=$no_of_subjects;?></strong></td>
+                    <td>Vacation Date:</td>
+                    <td><strong><?php echo $this->db->get_where('exam' , array('name' => $exam_name, 'year' => $running_year))->row()->date;?></strong></td>
+                    <td>Resumption Date:</td>
+                    <td><strong>N/A</strong></td>
+                </tr>-->
             </table>
 
 

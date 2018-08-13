@@ -176,7 +176,7 @@
                    <?php echo get_phrase('class_average');?> :
                         <?php
 
-                        $class_array = array('14', '15');   //class_id for SS2 and SS3
+                        $class_array = array('13', '14', '15');   //class_id for SS1, SS2 and SS3
 
                         if(in_array($class_id, $class_array)) {
 
