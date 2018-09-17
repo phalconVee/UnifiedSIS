@@ -218,7 +218,7 @@ class Crud_model extends CI_Model {
 
     function calculatePass($exam_id, $class_id, $section_id, $student_id, $running_year) {
 
-        // Gte all conditions per class, section and subject
+        // Get all conditions per class, section and subject
         $this->db->select('*');
         $this->db->from('pass_condition');
         $this->db->where('class_id', $class_id);
@@ -267,13 +267,13 @@ class Crud_model extends CI_Model {
                     }
 
                 } else {
-                    $this->calculateAverage($exam_id, $class_id, $section_id, $student_id, $running_year);
+                    return $this->calculateAverage($exam_id, $class_id, $section_id, $student_id, $running_year);
                 }
             }
         }
         else
         {
-            $this->calculateAverage($exam_id, $class_id, $section_id, $student_id, $running_year);
+            return $this->calculateAverage($exam_id, $class_id, $section_id, $student_id, $running_year);
         }
     }
 
@@ -301,7 +301,7 @@ class Crud_model extends CI_Model {
         if($class_average_query->num_rows() > 0) {
             $average = $class_average_query->row()->average;
 
-            if($average < 50) {
+            if(intval($average) < 40) {
                 return 'FAILED';
             }else {
                 return 'PASSED';

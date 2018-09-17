@@ -24,7 +24,8 @@ foreach ($student_info as $row1):
 
 
         <div class="col-md-6">
-            <table class="table table-bordered">
+
+            <!--<table class="table table-bordered">
                 <thead>
                 <tr>
                     <td style="text-align: center;">Subject</td>
@@ -177,7 +178,7 @@ foreach ($student_info as $row1):
 
             <?php
 
-            $class_array = array('14', '15');   //class_id for SS2 and SS3
+            $class_array = array('13', '14', '15');   //class_id for SS2 and SS3
 
             if(in_array($class_id, $class_array)) {
 
@@ -205,13 +206,17 @@ foreach ($student_info as $row1):
                 echo number_format($total_score / $number_of_subjects, 2) .'%';
             }
 
-            ?>
+            ?>-->
 
             <br> <br>
-            <a href="<?php echo base_url();?>index.php?student/student_marksheet_print_view/<?php echo $student_id;?>/<?php echo $row2['exam_id'];?>"
-               class="btn btn-primary" target="_blank">
-                <?php echo get_phrase('print_marksheet');?>
-            </a>
+
+            <span style="text-align: center;">
+                <a href="<?php echo base_url();?>index.php?student/student_marksheet_print_view/<?php echo $student_id;?>/<?php echo $row2['exam_id'];?>"
+                   class="btn btn-success" target="_blank">
+                    <?php echo get_phrase('click_here_to_see_'. $row2['name'].'_result');?>
+                </a>
+            </span>
+
         </div>
 
 

@@ -148,8 +148,8 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                     <th class="text-center">Grade </th>
                     <th class="text-center">Remark</th>
                     <th class="text-center">No. of students in subject class </th>
-                    <th class="text-center">Highest In Class</th>
-                    <th class="text-center">Lowest In Class</th>
+                    <!--<th class="text-center">Highest In Class</th>
+                    <th class="text-center">Lowest In Class</th>-->
                 </tr>
                 </thead>
 
@@ -363,13 +363,13 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                         ?>
                     </td>
 
-                    <td>
+                    <!--<td>
                         <?php echo $this->crud_model->get_highest_marks( $exam_id , $class_id , $row3['subject_id'] ); ?>
                     </td>
 
                     <td>
                         <?php echo $this->crud_model->get_lowest_marks( $exam_id , $class_id , $row3['subject_id'] ); ?>
-                    </td>
+                    </td>-->
                 </tr>
                 <?php endforeach;?>
                 </tbody>
@@ -470,7 +470,7 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                         <?php
                         //echo $pass_status;
                         if($pass_status == 'FAILED')
-                            echo 'FAILED';
+                            echo 'FAILED (NOT PROMOTED)';
                         else
                             echo 'PASSED';
                         ?>
