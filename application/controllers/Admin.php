@@ -693,11 +693,12 @@ class Admin extends CI_Controller
             ))->result_array();
 
             foreach($students_of_promotion_class as $row) {
-                $enroll_data['enroll_code']     =   substr(md5(rand(0, 1000000)), 0, 7);
-                $enroll_data['student_id']      =   $row['student_id'];
-                $enroll_data['class_id']        =   $this->input->post('promotion_status_'.$row['student_id']);
-                $enroll_data['year']            =   $this->input->post('promotion_year');
-                $enroll_data['date_added']      =   strtotime(date("Y-m-d H:i:s"));
+                $enroll_data['enroll_code']     = $row['enroll_code'];
+                $enroll_data['student_id']      = $row['student_id'];
+                $enroll_data['class_id']        = $this->input->post('promotion_status_'.$row['student_id']);
+                $enroll_data['section_id']      = ($row['section_id']+1);
+                $enroll_data['year']            = $this->input->post('promotion_year');
+                $enroll_data['date_added']      = strtotime(date("Y-m-d H:i:s"));
                 $this->db->insert('enroll' , $enroll_data);
             }
             $this->session->set_flashdata('flash_message' , get_phrase('new_enrollment_successful'));
