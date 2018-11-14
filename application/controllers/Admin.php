@@ -685,21 +685,27 @@ class Admin extends CI_Controller
 
         if($param1 == 'promote') {
 
-            $running_year  =   $this->input->post('running_year');
-            $from_class_id =   $this->input->post('promotion_from_class_id');
+            $running_year    =   $this->input->post('running_year');
+            $from_class_id   =   $this->input->post('promotion_from_class_id');
+            $from_section_id =   $this->input->post('section_id_from');
 
             $students_of_promotion_class =   $this->db->get_where('enroll' , array(
-                'class_id' => $from_class_id , 'year' => $running_year
+                'class_id'      => $from_class_id,
+                'section_id'    => $from_section_id,
+                'year'          => $running_year
             ))->result_array();
 
             foreach($students_of_promotion_class as $row) {
+
                 $enroll_data['enroll_code']     = $row['enroll_code'];
                 $enroll_data['student_id']      = $row['student_id'];
                 $enroll_data['class_id']        = $this->input->post('promotion_status_'.$row['student_id']);
-                $enroll_data['section_id']      = ($row['section_id']+1);
+
+                $enroll_data['section_id']      = $this->input->post('section_id_to');
                 $enroll_data['year']            = $this->input->post('promotion_year');
                 $enroll_data['date_added']      = strtotime(date("Y-m-d H:i:s"));
                 $this->db->insert('enroll' , $enroll_data);
+
             }
             $this->session->set_flashdata('flash_message' , get_phrase('new_enrollment_successful'));
             redirect(base_url() . 'index.php?admin/student_promotion' , 'refresh');
@@ -710,10 +716,13 @@ class Admin extends CI_Controller
         $this->load->view('backend/index', $page_data);
     }
 
-    function get_students_to_promote($class_id_from , $class_id_to , $running_year , $promotion_year)
+    function get_students_to_promote($class_id_from , $class_id_to , $section_from_id, $section_to_id, $running_year , $promotion_year)
     {
+
         $page_data['class_id_from']     =   $class_id_from;
         $page_data['class_id_to']       =   $class_id_to;
+        $page_data['section_id_from']   =   $section_from_id;
+        $page_data['section_id_to']     =   $section_to_id;
         $page_data['running_year']      =   $running_year;
         $page_data['promotion_year']    =   $promotion_year;
         $this->load->view('backend/admin/student_promotion_selector' , $page_data);
@@ -1897,6 +1906,26 @@ class Admin extends CI_Controller
     {
         $page_data['class_id'] = $class_id;
         $this->load->view('backend/admin/marks_get_subject' , $page_data);
+    }
+
+    function promote_get_section_1()
+    {
+        $sections = array();
+        $class_id = $this->input->post('class_id');
+        if($class_id){
+            $sections = $this->db->where("class_id", $class_id)->get("section")->result();
+        }
+        echo json_encode($sections);
+    }
+
+    function promote_get_section_2()
+    {
+        $sections = array();
+        $class_id = $this->input->post('class_id');
+        if($class_id){
+            $sections = $this->db->where("class_id", $class_id)->get("section")->result();
+        }
+        echo json_encode($sections);
     }
 
     /**

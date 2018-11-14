@@ -5,7 +5,13 @@
 		<div class="tile-stats tile-gray">
 			<div class="icon"><i class="entypo-users"></i></div>
 			
-			<h3 style="color: #696969;"><?php echo get_phrase('students_of_class');?> <?php echo $this->db->get_where('class' , array('class_id' => $class_id_from))->row()->name;?></h3>
+			<h3 style="color: #696969;">
+                <?php echo get_phrase('students_of_class');?> <?php echo $this->db->get_where('class' , array('class_id' => $class_id_from))->row()->name;?>
+            </h3>
+            <h3 style="color: #696969;">
+                <?php echo get_phrase('section');?>
+                <?php echo $this->db->get_where('section' , array('section_id' => $section_id_from))->row()->name;?>
+            </h3>
 		</div>
 	</div>
 	<div class="col-sm-4"></div>
@@ -28,7 +34,9 @@
 
                 <?php
                     $students = $this->db->get_where('enroll' , array(
-                        'class_id' => $class_id_from , 'year' => $running_year
+                        'class_id' => $class_id_from,
+                        'section_id' => $section_id_from,
+                        'year' => $running_year
                     ))->result_array();
 
                     foreach($students as $row):
@@ -38,7 +46,10 @@
                             ));
                 ?>
 
-				<tr>
+                    <input type="hidden" name="section_id_from" id="section_id_from" value="<?=$section_id_from;?>"/>
+                    <input type="hidden" name="section_id_to" id="section_id_to" value="<?=$section_id_to;?>"/>
+
+                        <tr>
 					
 					<td align="center">
 						<?php echo $this->db->get_where('student' , array('student_id' => $row['student_id']))->row()->name;?>

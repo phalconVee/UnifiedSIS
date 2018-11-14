@@ -108,14 +108,14 @@ var SnippetLogin = function() {
                 	setTimeout(function() {
 
                         // If login is invalid, we store the
-                        if(login_status == 'invalid')
+                        if(login_status === 'invalid')
                         {
                             //do something if response is invalid
                             btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false);
                             showErrorMsg(form, 'danger', 'Incorrect username or password. Please try again.');
                         }
                         else
-                        if(login_status == 'success')
+                        if(login_status === 'success')
                         {
                             // Redirect to login page
                             setTimeout(function()
