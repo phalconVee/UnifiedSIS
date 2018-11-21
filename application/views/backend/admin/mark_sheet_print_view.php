@@ -1,9 +1,9 @@
 <?php
 $class_name		 	= 	$this->db->get_where('class' , array('class_id' => $class_id))->row()->name;
 $exam_name  		= 	$this->db->get_where('exam' , array('exam_id' => $exam_id))->row()->name;
-$section_name  		= 	$this->db->get_where('section' , array('class_id' => $class_id))->row()->name;
+$section_name  		= 	$this->db->get_where('section' , array('section_id' => $section_id))->row()->name;
 $subject_name  		= 	$this->db->get_where('subject' , array('subject_id' => $subject_id))->row()->name;
-$section_id  		= 	$this->db->get_where('section' , array('class_id' => $class_id))->row()->section_id;
+//$section_id  		= 	$this->db->get_where('section' , array('class_id' => $class_id))->row()->section_id;
 $system_name        =	$this->db->get_where('settings' , array('type'=>'system_name'))->row()->description;
 $running_year       =	$this->db->get_where('settings' , array('type'=>'running_year'))->row()->description;
 ?>
