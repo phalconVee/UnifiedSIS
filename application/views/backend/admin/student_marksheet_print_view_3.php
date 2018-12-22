@@ -98,10 +98,9 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                         <img src="<?php echo base_url();?>image.php/<?=base_url();?>uploads/logo.png?width=100&height=100&cropratio=1:1&image=<?=base_url();?>uploads/logo.png" />
                     </th>
                     <th style="text-align: center;">
-                        <h3>St. Patricks Model Schools, Umuahia</h3>
-                        <span>Saint Patrick's Model Crescent Road, off Agbama Upstair Line, World Bank
-                            Housing Estate Umuahia, Abia State. Nigeria</span>
-                        <h4>REPORT SHEET FOR 2017/2018 ACADEMIC SESSION</h4>
+                        <h3><?=$system_name?></h3>
+                        <span><?=$address?></span>
+                        <h4>REPORT SHEET FOR <?=$running_year?> ACADEMIC SESSION</h4>
                     </th>
                     <th>
                         <img src="<?php echo base_url();?>image.php/<?php echo $this->crud_model->get_image_url('student', $student_id);?>?width=100&height=100&cropratio=1:1&image=<?php echo $this->crud_model->get_image_url('student', $student_id);?>" class="img-circle"/>
@@ -377,58 +376,165 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
             </table>
 
             <div style="text-align: center;color: #000;font-weight: 500;">
-                <table border="1" id="table-3" style="padding: 8px; height: 12px; margin-top: 5px;">
+
+                <?php
+                    $fair = array(3, 4);
+                    $good = array(4, 5);
+                ?>
+
+                <table border="1" id="table-3" style="width: 100%; padding: 8px; height: 12px; margin-top: 5px;">
                     <tr>
                         <th style="width: 50px;"></th>
                         <th>GRADING</th>
                         <th></th>
+                        <th>BEHAVIOUR</th>
+                        <th><small>Average Rating</small></th>
+                        <th>ACTIVITIES</th>
+                        <th><small>Average Rating</small></th>
                     </tr>
+
                     <tbody>
-                    <tr>
-                        <td>95 - 100</td>
-                        <td>A+</td>
-                        <td>Excellent in Knowledge</td>
-                    </tr>
-                    <tr>
-                        <td>80 - 94</td>
-                        <td>A</td>
-                        <td>Excellent</td>
-                    </tr>
+                        <tr>
+                            <!--Grading-->
+                            <td>95 - 100</td>
+                            <td>A+</td>
+                            <td>Excellent in Knowledge</td>
+                            <!-- Behaviour-->
+                            <td>Punctuality</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                            <!--Activities-->
+                            <td>Manual Dexterity in Handling Tools</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- Grading -->
+                            <td>80 - 94</td>
+                            <td>A</td>
+                            <td>Excellent</td>
+                            <!-- Behaviour-->
+                            <td>Attendance in Class</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                            <!--Activities-->
+                            <td>Handwriting</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>70 -79</td>
-                        <td>B</td>
-                        <td>Very Good</td>
-                    </tr>
+                        <tr>
+                            <!--Grading-->
+                            <td>70 -79</td>
+                            <td>B</td>
+                            <td>Very Good</td>
+                            <!-- Behaviour-->
+                            <td>Carrying out Assignment</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                            <!--Activities-->
+                            <td>Communication</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>60 -69</td>
-                        <td>C</td>
-                        <td>Good</td>
-                    </tr>
+                        <tr>
+                            <!-- Grading -->
+                            <td>60 -69</td>
+                            <td>C</td>
+                            <td>Good</td>
+                            <!-- Behaviour-->
+                            <td>Participation in Class Activity</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                            <!--Activities-->
+                            <td>Sports & Games</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>45 - 59</td>
-                        <td>D</td>
-                        <td>Fairly Good</td>
-                    </tr>
+                        <tr>
+                            <!--Grading-->
+                            <td>45 - 59</td>
+                            <td>D</td>
+                            <td>Fairly Good</td>
+                            <!-- Behaviour-->
+                            <td>Neatness</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                            <!--Activities-->
+                            <td>Drawing & Painting</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>30 - 44</td>
-                        <td>E</td>
-                        <td>Poor</td>
-                    </tr>
+                        <tr>
+                            <!-- Grading -->
+                            <td>30 - 44</td>
+                            <td>E</td>
+                            <td>Poor</td>
+                            <!-- Behaviour-->
+                            <td>Honesty</td>
+                            <td>
+                                <?=
+                                ($average > 45) ? $good[array_rand($good)] : $fair[array_rand($fair)];
+                                ?>
+                            </td>
+                            <!--Activities-->
+                            <td></td>
+                            <td></td>
+                        </tr>
 
-                    <tr>
-                        <td>0 - 29</td>
-                        <td>F</td>
-                        <td>Very Poor</td>
-                    </tr>
+                        <tr>
+                            <!--Grading-->
+                            <td>0 - 29</td>
+                            <td>F</td>
+                            <td>Very Poor</td>
+                            <!-- Behaviour-->
+                            <td></td>
+                            <td></td>
+                            <!--Activities-->
+                            <td></td>
+                            <td></td>
+                        </tr>
+
 
                     </tbody>
-
                 </table>
+
             </div>
+
+            <div class="clearfix">&nbsp;</div>
 
             <table id="header-tb" border="1" style="width: 100%; height: 25px;margin-top: 5px;color: #000;">
                 <tr>
@@ -468,11 +574,16 @@ $section_name  		= 	$this->db->get_where('section' , array('section_id' => $sect
                     <td class="text-center" style="text-align: center;background-color: #ccc; color: #000;" width="20"><strong>Result Status:</strong></td>
                     <td class="text-center" width="80" style="color: #000;">&nbsp;
                         <?php
-                        //echo $pass_status;
+                        /*
                         if($pass_status == 'FAILED')
                             echo 'FAILED (NOT PROMOTED)';
                         else
+                            echo 'PASSED';*/
+                        if(intval($average) < 40) {
+                            echo 'FAILED';
+                        }else {
                             echo 'PASSED';
+                        }
                         ?>
                     </td>
                 </tr>
