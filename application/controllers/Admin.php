@@ -277,6 +277,7 @@ class Admin extends CI_Controller
 
         $this->db->where('class_id' , $class_id);
         $this->db->where('section_id' , $section_id);
+        $this->db->where('year' , $running_year);
         $this->db->from('enroll');
         $no_in_class = $this->db->count_all_results();
 
